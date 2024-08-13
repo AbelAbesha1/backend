@@ -396,7 +396,7 @@ const run = async () => {
 run();
 
 app.listen(process.env.PORT, () => {
-  console.log(`server listening on ${process.env.PORT}`);
+  console.log(`server listening on ${process.env.PORT || 5000}`);
 });
 
 // app.post("/updateHomeSection/:id", updateUpload.fields([
