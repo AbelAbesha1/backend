@@ -381,6 +381,44 @@ app.delete("/members/:id", async (req, res) => {
   }
 });
 
+app.get("/getUser", async (req, res) => {
+  try {
+    const profileData = await users.find({});
+    res.json(profileData); // Send JSON response
+  } catch (error) {
+    console.error("Error fetching home data:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching home data", error: error.message });
+  }
+});
+app.put("/editprofile", async (req, res) => {
+  try {
+    const id = "66b628ce0fa9dda328247ef6";
+    const { email, password } = req.body;
+
+    const updatedprofile = await users.findByIdAndUpdate(
+      id,
+      { email, password },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedprofile) {
+      return res.status(404).json({ message: "Profile data not found" });
+    }
+    res.status(200).json({
+      message: "Profile data updated successfully",
+      data: updatedprofile,
+    });
+  } catch (error) {
+    console.error("Error updating home data:", error);
+    res.status(500).json({
+      message: "Error updating home data",
+      error: error.message,
+    });
+  }
+});
+
 // Configure multer if needed (for handling file uploads)
 // const upload = multer({ dest: 'uploads/' });
 
