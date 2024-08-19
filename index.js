@@ -7,6 +7,7 @@ require("dotenv").config();
 
 const users = require("./models/user.model");
 const homesection = require("./models/home.model");
+const footersection = require("./models/footer.model");
 const Service = require("./models/service.model");
 const MembersModel = require("./models/members.model");
 
@@ -142,6 +143,89 @@ app.get("/getHomeSection/:id", async (req, res) => {
     res
       .status(500)
       .json({ message: "Error fetching home data", error: error.message });
+  }
+});
+
+// footer Section Route Started
+
+app.post("/createFooter", async (req, res) => {
+  try {
+    const { location, phone, email } = req.body;
+
+    // Create a new instance of Footer Section
+    const newFooter = new footersection({ location, phone, email });
+
+    // Save to MongoDB
+    const savedFooter = await newFooter.save();
+
+    // Send response
+    res.status(201).json({
+      message: "Footer data saved successfully",
+      data: savedFooter,
+    });
+  } catch (error) {
+    console.error("Error saving Footer data:", error);
+    res.status(500).json({
+      message: "Error saving Footer data",
+      error: error.message,
+    });
+  }
+});
+
+app.put("/editFooter", async (req, res) => {
+  try {
+    const id = "66c387e0a88fc8d31b2cec78";
+    const { location, phone, email } = req.body;
+
+    const updatedFooter = await footersection.findByIdAndUpdate(
+      id,
+      { location, phone, email },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedFooter) {
+      return res.status(404).json({ message: "Footer data not found" });
+    }
+    res.status(200).json({
+      message: "Footer data updated successfully",
+      data: updatedFooter,
+    });
+  } catch (error) {
+    console.error("Error updating Footer data:", error);
+    res.status(500).json({
+      message: "Error updating Footer data",
+      error: error.message,
+    });
+  }
+});
+
+app.get("/getFooterSection", async (req, res) => {
+  try {
+    const FooterData = await footersection.find({});
+    res.json(FooterData); // Send JSON response
+  } catch (error) {
+    console.error("Error fetching Footer data:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching Footer data", error: error.message });
+  }
+});
+
+app.get("/getFooterSection/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const FooterData = await footersection.findById(id);
+
+    if (!FooterData) {
+      return res.status(404).json({ message: "Home data not found" });
+    }
+
+    res.json(FooterData); // Send JSON response
+  } catch (error) {
+    console.error("Error fetching Form data by ID:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching Form data", error: error.message });
   }
 });
 
