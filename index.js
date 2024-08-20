@@ -150,10 +150,17 @@ app.get("/getHomeSection/:id", async (req, res) => {
 
 app.post("/createFooter", async (req, res) => {
   try {
-    const { location, phone, email } = req.body;
+    const { location, phone, email, youtube, facebook, instagram } = req.body;
 
     // Create a new instance of Footer Section
-    const newFooter = new footersection({ location, phone, email });
+    const newFooter = new footersection({
+      location,
+      phone,
+      email,
+      youtube,
+      facebook,
+      instagram,
+    });
 
     // Save to MongoDB
     const savedFooter = await newFooter.save();
@@ -174,12 +181,12 @@ app.post("/createFooter", async (req, res) => {
 
 app.put("/editFooter", async (req, res) => {
   try {
-    const id = "66c387e0a88fc8d31b2cec78";
-    const { location, phone, email } = req.body;
+    const id = "66c4f4b6000c87ef60c0c2a8";
+    const { location, phone, email, youtube, facebook, instagram } = req.body;
 
     const updatedFooter = await footersection.findByIdAndUpdate(
       id,
-      { location, phone, email },
+      { location, phone, email, youtube, facebook, instagram },
       { new: true, runValidators: true }
     );
 
