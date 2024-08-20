@@ -181,7 +181,7 @@ app.post("/createFooter", async (req, res) => {
 
 app.put("/editFooter", async (req, res) => {
   try {
-    const id = "66c4f4b6000c87ef60c0c2a8";
+    const id = "66c387e0a88fc8d31b2cec78";
     const { location, phone, email, youtube, facebook, instagram } = req.body;
 
     const updatedFooter = await footersection.findByIdAndUpdate(
